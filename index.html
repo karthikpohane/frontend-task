@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/index.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <title>Dashdark X</title>
+  </head>
+  <body>
+    <div class="app-container">
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar">
+        <div>
+          <div class="sidebar-header">
+            <span class="icon">
+              <img src="assets/logo.png" alt="Dashboard Icon" class="icon" />
+            </span>
+            <div class="logo">Dashdark X</div>
+            <button id="toggleBtn" style="margin: 8px"><i class="fas fa-angle-left"></i></button>
+          </div>
+
+          <nav>
+            <a href="index.html" class="nav-link active">
+              <span class="icon"><i class="fa fa-home"></i></span>
+              <span class="text">Dashboard</span>
+            </a>
+            <a href="products.html" class="nav-link">
+              <span class="icon"><i class="fa fa-star"></i></span>
+              <span class="text">Product List</span>
+            </a>
+          </nav>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <img
+            src="https://i.pravatar.cc/40"
+            alt="User Avatar"
+            style="border-radius: 50%"
+          />
+          <span class="user-name">John Carter</span>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <h1>Welcome back, John</h1>
+        <p>Measure your advertising ROI and report website traffic.</p>
+
+        <!-- Cards -->
+        <div class="grid">
+          <div class="card">
+            <p><i style="font-size: small;" class="fa fa-eye"></i> Pageviews</p>
+            <h2>$50.8K <span style="font-size: small;" class="chip green">+24.5%</span></h2>
+          </div>
+          <div class="card">
+            <p><i style="font-size: small;" class='fas fa-user-alt'></i> Monthly users</p>
+            <h2>$23.6K <span style="font-size: small;" class="chip green">+18.9%</span></h2>
+          </div>
+          <div class="card">
+            <p><i style="font-size: small;" class='fas fa-plus-circle'></i> New sign ups</p>
+            <h2>1756 <span style="font-size: small;" class="chip red">-12.3%</span></h2>
+          </div>
+          <div class="card">
+            <p><i style="font-size: small;" class="fa fa-star"></i> Subscriptions</p>
+            <h2>$2.3K <span style="font-size: small;" class="chip green">+11.7%</span></h2>
+          </div>
+        </div>
+
+        <!-- Chart Area -->
+        <div class="chart-layout">
+          <!-- Revenue Chart -->
+          <div class="card revenue-card">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 10px;
+              "
+            >
+              <div>
+                <p>Total Revenue</p>
+                <h2>$240.8K <span style="font-size: small;" class="chip green">+24.5%</span></h2>
+              </div>
+              <div style="display: flex; align-items: center; gap: 20px">
+                <div style="display: flex; align-items: center; gap: 3px">
+                  <span
+                    class="legend-dot"
+                    style="background-color: #CB3CFF; border-radius: 50%"
+                  ></span>
+                  <span style="color: #fff; font-size: small">Revenue</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 3px">
+                  <span
+                    class="legend-dot"
+                    style="background-color: #00C2FF; border-radius: 50%"
+                  ></span>
+                  <span style="color: #fff; font-size: small">Expense</span>
+                </div>
+                <select id="revenue-filter">
+                  <option value="2024" selected>Jan 2024 - Dec 2024</option>
+                  <option value="2023">Jan 2023 - Dec 2023</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="revenue-chart-container">
+              <canvas id="revenueChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Side Charts -->
+          <div class="side-charts">
+            <div class="card">
+              <p><i style="font-size: small;" class="fas fa-chart-line"></i> Total Profit</p>
+              <h2>$50.8K <span style="font-size: small;" class="chip green">+24.5%</span></h2>
+              <canvas id="sessionsChart" class="side-chart-canvas"></canvas>
+            </div>
+            <div class="card">
+              <p><i style="font-size: small;" class='fas fa-stopwatch'></i> Total sessions</p>
+              <h2>440 <span style="font-size: small;" class="chip green">+18.9%</span></h2>
+              <canvas id="conversionChart" class="side-chart-canvas"></canvas>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      // Main Revenue Chart
+      const ctxRevenue = document
+        .getElementById("revenueChart")
+        .getContext("2d");
+      const sessionsCtx = document
+        .getElementById("sessionsChart")
+        .getContext("2d");
+      const conversionCtx = document
+        .getElementById("conversionChart")
+        .getContext("2d");
+      const revenueChart = new Chart(ctxRevenue, {
+        type: "line",
+        data: {
+          labels: [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+          ],
+          datasets: [
+            {
+              label: "Revenue",
+              data: [
+                1200, 1900, 3000, 2800, 3500, 4000, 4200, 4600, 4800, 5000,
+                5500, 6000,
+              ],
+              borderColor: "#CB3CFF",
+              backgroundColor: "rgba(239, 68, 68, 0.1)",
+              fill: true,
+              tension: 0.3,
+              pointRadius: 4,
+              pointHoverRadius: 6,
+            },
+            {
+              label: "Expense",
+              data: [
+                800, 1200, 1500, 1700, 2200, 2800, 3000, 3500, 3700, 3800, 4000,
+                4200,
+              ],
+              borderColor: "#00C2FF",
+              backgroundColor: "rgba(16, 185, 129, 0.1)",
+              fill: true,
+              tension: 0.3,
+              pointRadius: 4,
+              pointHoverRadius: 6,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            mode: "nearest",
+            intersect: false,
+          },
+          plugins: {
+            legend: {
+              display: false,
+            },
+            tooltip: {
+              mode: "index",
+              intersect: false,
+            },
+          },
+          scales: {
+            x: {
+              ticks: {
+                color: "#d1d5db",
+              },
+              grid: {
+                display: false,
+              },
+            },
+            y: {
+              ticks: {
+                color: "#9ca3af",
+              },
+              grid: {
+                color: "#1e2768",
+                drawBorder: false,
+              },
+            },
+          },
+        },
+      });
+
+      // Sessions Chart (Bar)
+      const sessionsChart = new Chart(sessionsCtx, {
+        type: "bar",
+        data: {
+          labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+          datasets: [
+            {
+              label: "Sessions",
+              data: [650, 590, 800, 810, 560, 550, 400],
+              backgroundColor: "#00C2FF",
+              borderRadius: 3,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: { enabled: true },
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: { color: "#1e2768" },
+              ticks: { color: "#d1d5db" },
+            },
+            x: {
+              grid: { color: "#1e2768" },
+              ticks: { color: "#d1d5db" },
+            },
+          },
+        },
+      });
+
+      // Conversion Rate Chart (Line)
+      const conversionChart = new Chart(conversionCtx, {
+        type: "line",
+        data: {
+          labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+          datasets: [
+            {
+              label: "Conversion Rate",
+              data: [1.2, 1.5, 1.3, 1.7, 2.0, 1.8, 2.2],
+              borderColor: "#CB3CFF",
+              fill: true,
+              tension: 0.3,
+              pointRadius: 3,
+              pointHoverRadius: 6,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: { enabled: true },
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: { color: "#1e2768" },
+              ticks: { color: "#d1d5db", callback: (val) => val + "%" },
+            },
+            x: {
+              grid: { color: "#1e2768" },
+              ticks: { color: "#d1d5db" },
+            },
+          },
+        },
+      });
+
+      // Sidebar toggle
+      const toggleIcon = document.getElementById("toggleIcon");
+
+      // Toggle Sidebar
+      const toggleBtn = document.getElementById("toggleBtn");
+      const sidebar = document.getElementById("sidebar");
+      toggleBtn.addEventListener("click", () => {
+        sidebar.classList.toggle("collapsed");
+        toggleBtn.innerHTML = sidebar.classList.contains("collapsed")
+          ? '<i class="fas fa-angle-right"></i>'
+          : '<i class="fas fa-angle-left"></i>';
+      });
+    </script>
+  </body>
+</html>

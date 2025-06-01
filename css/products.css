@@ -1,0 +1,374 @@
+/* Reset and Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #081028;
+  color: #111827;
+  overflow: hidden;
+}
+
+/* Container */
+.app-container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+  background-color: #0b1739;
+  color: #aeb2c4;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: width 0.3s ease;
+  width: 260px;
+  padding: 1rem 1.2rem;
+  min-width: 60px;
+}
+
+.sidebar.collapsed {
+  width: 70px;
+}
+
+.sidebar .sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.sidebar .logo {
+  font-weight: 700;
+  font-size: 1.3rem;
+  white-space: nowrap;
+}
+
+.sidebar.collapsed .logo,
+.sidebar.collapsed .user-name,
+.sidebar.collapsed nav a .text {
+  display: none;
+}
+
+.sidebar > div:last-child {
+  margin-top: 2rem;
+}
+
+#toggleBtn {
+  background: none;
+  border: none;
+  color: #aeb2c4;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+/* Navigation */
+nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #aeb9e1;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+nav a:hover {
+  color: #ffffff;
+}
+
+nav a.active {
+  color: #cb3cff;
+}
+
+.sidebar .icon {
+  font-size: 1.2rem;
+  width: 24px;
+  text-align: center;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  background-color: #0b1739;
+  padding: 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  height: 100vh;
+  color: #fff;
+}
+
+/* Header */
+.header-search {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.header-search h1 {
+  font-weight: 700;
+  font-size: 2rem;
+  user-select: none;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.header-search p {
+  color: #aeb2c4;
+  font-size: 0.9rem;
+  margin-top: 0.2rem;
+}
+
+/* Search Bar */
+.search-bar {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+  width: 220px;
+  font-size: 1rem;
+  background-color: #222c55;
+  color: #e0e0e0;
+  transition: background-color 0.3s ease;
+  outline-offset: 2px;
+  outline-color: #3b68d9;
+}
+
+.search-bar::placeholder {
+  color: #aeb2c4;
+}
+
+.search-bar:focus {
+  background-color: #2a3a7e;
+  outline: 2px solid #3b68d9;
+}
+
+/* Buttons */
+.btn {
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  user-select: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #3b68d9;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #2a4fcc;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+/* Table */
+#productTable {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #0b1739;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+#productTable thead tr {
+  background-color: #1f2a6e;
+  user-select: none;
+}
+
+#productTable thead th {
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #c8d0f7;
+  border-bottom: 2px solid #3b68d9;
+}
+
+#productTable tbody tr:nth-child(odd) {
+  background-color: #0b1739;
+}
+
+#productTable tbody tr:nth-child(even) {
+  background-color: #343b4f;
+}
+
+#productTable tbody tr:hover {
+  background-color: #3b68d9;
+  color: white;
+  cursor: pointer;
+}
+
+#productTable tbody td {
+  padding: 12px 15px;
+  color: #d1d5f7;
+  font-size: 0.9rem;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal.hidden {
+  display: none !important;
+}
+
+.modal-content {
+  background-color: #1f2a6e;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 95vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7);
+  color: #e0e0e0;
+  user-select: none;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: white;
+}
+
+.close-btn {
+  font-size: 1.8rem;
+  background: none;
+  border: none;
+  color: #aeb2c4;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+  color: #ff6666;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+/* Form Elements */
+form label {
+  display: block;
+  margin-bottom: 6px;
+  margin-top: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+form input[type="text"],
+form input[type="number"],
+form input[type="file"],
+form select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: none;
+  background-color: #28306b;
+  color: #e0e0e0;
+  font-size: 1rem;
+  outline-offset: 2px;
+  outline-color: #3b68d9;
+  transition: background-color 0.3s ease;
+}
+
+form input[type="text"]:focus,
+form input[type="number"]:focus,
+form select:focus {
+  background-color: #394a9e;
+  outline: 2px solid #3b68d9;
+}
+
+input, select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+/* Additional Utilities */
+.status {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.status {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  font-weight: 500;
+  border: 1px solid;
+}
+
+.status.in-stock {
+  color: #10b981;
+  background-color: rgba(16, 185, 129, 0.1);
+  border-color: #10b981;
+  
+}
+.status.out-of-stock {
+  color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.1);
+  border-color: #ef4444;
+}
+
+.action-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #007bff;
+}
+.action-btn:hover {
+  color: #0056b3;
+}

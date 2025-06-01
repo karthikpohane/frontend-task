@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashdark X – Product List</title>
+  <link rel="stylesheet" href="css/products.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar" id="sidebar">
+      <div>
+        <div class="sidebar-header">
+          <span class="icon">
+            <img src="assets/logo.png" alt="Dashboard Icon" class="icon" style="width: 24px;" />
+          </span>
+          <div class="logo">Dashdark X</div>
+          <button id="toggleBtn"><i class="fas fa-angle-left"></i></button>
+        </div>
+        <nav>
+          <a href="index.html" class="nav-link">
+            <span class="icon"><i class="fa fa-home"></i></span>
+            <span class="text">Dashboard</span>
+          </a>
+          <a href="products.html" class="nav-link active">
+            <span class="icon"><i class="fa fa-star"></i></span>
+            <span class="text">Product List</span>
+          </a>
+        </nav>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <img src="https://i.pravatar.cc/40" alt="User Avatar" style="border-radius: 50%" />
+        <span class="user-name">John Carter</span>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <div class="header-search">
+        <h1>Product List</h1>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <input type="text" id="searchInput" class="search-bar" placeholder="Search products..." />
+          <button class="btn btn-primary" onclick="openProductModal()">+ Add Product</button>
+        </div>
+      </div>
+
+      <h2 style="margin: 24px 0 10px 0;">All Products</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th><input type="checkbox" /></th>
+            <th>Product Name</th>
+            <th>Category</th>
+            <th>Price ($)</th>
+            <th>Company</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <!-- JS-generated rows -->
+        </tbody>
+      </table>
+    </main>
+  </div>
+
+  <div id="productModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Add new product</h2>
+        <button class="close-btn" onclick="closeProductModal()">&times;</button>
+      </div>
+      <form id="productForm" onsubmit="handleSubmit(event)">
+        <input type="hidden" id="productId" />
+        <label for="productName">Product name</label>
+        <input type="text" id="productName" required />
+
+        <label for="productImage">Product photo</label>
+        <input type="file" id="productImage" accept="image/*" />
+
+        <label for="productCategory">Category</label>
+        <select id="productCategory" required>
+          <option value="Accessories">Accessories</option>
+          <option value="Digital">Digital</option>
+          <option value="Light">Light</option>
+          <option value="Cosmetics">Cosmetics</option>
+          <option value="Telecommunication">Telecommunication</option>
+          <option value="Note Book">Note Book</option>
+        </select>
+
+        <label for="productPrice">Price (in $)</label>
+        <input type="number" id="productPrice" required min="0" step="0.01" />
+
+        <label for="productStock">Stock</label>
+        <input type="number" id="productStock" required min="0" step="1" />
+
+        <label for="productCompany">Company</label>
+        <select id="productCompany" required>
+          <option value="Google">Google</option>
+          <option value="Facebook">Facebook</option>
+          <option value="Twitter">Twitter</option>
+          <option value="YouTube">YouTube</option>
+          <option value="Reddit">Reddit</option>
+          <option value="Spotify">Spotify</option>
+          <option value="Pinterest">Pinterest</option>
+          <option value="Twitch">Twitch</option>
+        </select>
+
+        <label for="productStatus">Status</label>
+        <select id="productStatus" required>
+          <option value="In Stock">In Stock</option>
+          <option value="Out of stock">Out of stock</option>
+        </select>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeProductModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" onclick="handleSubmit()">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+ <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const toggleBtn = document.getElementById("toggleBtn");
+      const sidebar = document.getElementById("sidebar");
+
+      if (toggleBtn && sidebar) {
+        toggleBtn.addEventListener("click", () => {
+          sidebar.classList.toggle("collapsed");
+          toggleBtn.innerHTML = sidebar.classList.contains("collapsed")
+            ? '<i class="fas fa-angle-right"></i>'
+            : '<i class="fas fa-angle-left"></i>';
+        });
+      }
+
+      renderTable();
+    });
+
+    function openProductModal() {
+      document.getElementById("productModal").classList.remove("hidden");
+      document.getElementById("modalTitle").textContent = "Add new product";
+      document.getElementById("productForm").reset();
+      document.getElementById("productId").value = "";
+    }
+
+    function closeProductModal() {
+      document.getElementById("productModal").classList.add("hidden");
+    }
+
+    function handleSubmit(event) {
+      event.preventDefault();
+
+      closeProductModal()
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById("tableBody");
+      tbody.innerHTML = "";
+      const products = Array.from({ length: 10 }, (_, i) => ({
+        name: `Product ${i + 1}`,
+        category: "Accessories",
+        price: (10 + i).toFixed(2),
+        company: "Spotify",
+        status: i % 2 === 0 ? "In Stock" : "Out of stock"
+      }));
+
+      products.forEach((product, index) => {
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+          <td><input type="checkbox" /></td>
+          <td class="product-name">${product.name}</td>
+          <td>${product.category}</td>
+          <td>${product.price}</td>
+          <td>${product.company}</td>
+          <td>
+            <span class="status ${product.status === 'In Stock' ? 'in-stock' : 'out-of-stock'}">
+              ${product.status}
+            </span>
+          </td>
+          <td>
+            <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+            <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+          </td>
+        `;
+
+        tbody.appendChild(tr);
+      });
+
+      document.querySelectorAll(".action-btn.edit").forEach((btn) => {
+        btn.addEventListener("click", function () {
+          const row = btn.closest("tr");
+          const name = row.querySelector(".product-name").textContent;
+          alert("Edit product: " + name);
+          // TODO: populate modal with existing data
+        });
+      });
+
+      document.querySelectorAll(".action-btn.delete").forEach((btn) => {
+        btn.addEventListener("click", function () {
+          const row = btn.closest("tr");
+          row.remove();
+          alert("Product deleted successfully.");
+        });
+      });
+    }
+  </script>
+</body>
+</html>
